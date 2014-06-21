@@ -2,15 +2,15 @@ require "pty"
 
 
 
-PTY.spawn("ruby_drills") do |pin, pout|
+PTY.spawn("ruby_drills") do |read, write|
     Thread.new do
         loop do
-            pout.print STDIN.getc.chr
+            write.print STDIN.getc.chr
         end
     end
 
     loop do
-        print pin.sysread(512)
+        print read.sysread(512)
         STDOUT.flush
     end
 end
